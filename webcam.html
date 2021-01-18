@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Acess</title>
+
+    <style type="text/css">
+    
+        /*styling the video frame*/
+        
+        .videoObject {
+            border: 12px solid #222;
+            background: grey;
+            height: 490px;
+            width: 690px;
+            top: "0px";
+            left: "0px";        
+        }
+        
+        .btn {
+            height: 50px;
+            width: 100px;
+            background: cornflowerblue;
+            font-weight: bold;
+            font-size: 56px;
+        }
+        
+        .canvas {
+            border: 12px solid #222;
+            background: grey;
+            height: 490px;
+            width: 700px; 
+        }
+        
+    </style>
+
+
+</head>
+
+<body>
+    
+    <!--making video object to display video-->
+    
+    <div class="videoObject">
+        <video id="videoElement" autoplay="true" width="700" height="490">capture</video>
+    </div>
+    
+    <!--Now capture the Image-->
+    
+    <!--creating a button to capture the Image-->
+         
+    <button id="capture" class="btn"></button>
+                                  
+    <!--canvas to display the captured picture-->
+    
+    <canvas id="image" class="canvas" width="700px" height="490px"></canvas>
+                
+                            
+    <script>
+    //Allow accessing the camera
+
+    var video = document.querySelector("#videoElement")
+    var can = document.querySelector('.canvas')
+    can.style.position = 'absolute';
+    can.style.top = "8px";
+    can.style.left = "725px";
+
+    //mediaDevice and userMedia to navigate the access for camera
+
+    if(navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({
+            video: true
+            // after allowing the camera start the video stream
+        }).then(function(stream) {
+            video.srcObject = stream
+            //play the video
+            video.play();
+        }).catch(function(error) {
+            console.log(error);
+        });
+    }
+
+    // capture Images
+
+    var image = document.getElementById('image'),
+        context = image.getContext('2d');  //setting for resolution of image
+
+    document.getElementById('capture').addEventListener('click' , function() {
+            // draw a image when the button clicked on the canvas
+        
+        context.drawImage(video , 0 , 0 , image.width , image.height);
+        
+    });
+
+
+//Done.....!! 
+    
+    
+    
+    
+    </script>
+    
+</body>
+
+</html>
